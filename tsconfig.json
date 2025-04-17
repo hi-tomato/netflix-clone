@@ -11,9 +11,10 @@
     "strictNullChecks": true,
     "baseUrl": ".",
     "paths": {
+      "@types/*": ["types/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
-      "@types/*": ["src/types/*"],
+      "@hook/*": ["src/hook/*"],
       "@/*": ["src/*"]
     }
   },

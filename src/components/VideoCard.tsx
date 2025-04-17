@@ -6,7 +6,9 @@ interface VideoCardProps {
 }
 
 const VideoCard = ({ video }: VideoCardProps) => {
-  return <div>{video.title}</div>;
+  console.log(video);
+  const { title } = video;
+  return <div>{title}</div>;
 };
 
 export default VideoCard;

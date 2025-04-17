@@ -21,6 +21,7 @@ export function useGetMockData(keyword: string) {
   return { isError, isLoading, data };
 }
 
+// use를 바꾸자
 export function isSearch(keyword: string) {
   return useQuery({
     queryKey: ['videos', keyword],

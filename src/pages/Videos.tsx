@@ -12,7 +12,6 @@ const Videos = () => {
 
   return (
     <div>
-      Videos {keyword ? `${keyword} 🔍` : `🔥`}{' '}
       {data?.map((items: VideoData) => (
         <VideoCard key={items.id} video={items} />
       ))}
