@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const Navbar = () => {
   const [text, setText] = useState('');
+  const { keyword } = useParams();
   const navigate = useNavigate();
 
+  useEffect(() => setText(keyword || ''), [keyword]);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (text.trim().length === 0) return;
-    navigate('');
+    navigate(`/videos/${text}`);
     setText('');
   };
 
