@@ -1,24 +1,14 @@
-import React from 'react';
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import VideoCard from '@components/VideoCard';
+import { isSearch, useGetMockData } from '../hook/useFetch';
 import { VideoData } from 'types/type';
 
 const Videos = () => {
   const { keyword } = useParams();
-  const { isLoading, isError, data } = useQuery({
-    queryKey: ['videos', keyword || 'popular'],
-    queryFn: async () => {
-      return fetch(`/data/${keyword ? 'search' : 'popular'}.json`)
-        .then((res) => res.json())
-        .then((items) => items.results);
-    }
-  });
+  const { isError, isLoading, data } = isSearch(keyword || '');
 
-  console.log(data);
-  if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error...</p>;
+  if (isLoading) return <p>isLoading...</p>;
 
   return (
     <div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { VideoData } from '../types/type';
+import { VideoData } from 'types/type';
 
 interface VideoCardProps {
   video: VideoData;
