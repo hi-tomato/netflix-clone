@@ -1,7 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
 
-// 실제 데이터 주소 저장
+interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  release_date: string;
+}
+interface ApiResponse {
+  results: Movie[];
+}
+
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   params: {
@@ -13,26 +23,27 @@ export function useGetMockData(keyword: string) {
   const { isError, isLoading, data } = useQuery({
     queryKey: ['video', keyword],
     queryFn: async () => {
-      return fetch(`/data/${keyword ? 'search' : 'popular'}.json`)
-        .then((res) => res.json())
-        .then((items) => items.results);
+      return axios
+        .get<ApiResponse>(`/data/${keyword ? 'search' : 'popular'}.json`)
+        .then((res) => res.data.results);
     }
   });
   return { isError, isLoading, data };
 }
 
-// use를 바꾸자
-export function isSearch(keyword: string) {
+export function useSearchOrPopularVideos(
+  keyword: string
+): UseQueryResult<Movie[], AxiosError> {
   return useQuery({
     queryKey: ['videos', keyword],
     queryFn: async () => {
-      return keyword ? useSearchData(keyword) : usePopularData();
+      return keyword ? search(keyword) : popular();
     },
     staleTime: 1000 * 60 * 5,
     retry: 1
   });
 
-  async function useSearchData(keyword: string) {
+  async function search(keyword: string): Promise<Movie[]> {
     return apiClient
       .get('/search/movie', {
         params: {
@@ -40,38 +51,31 @@ export function isSearch(keyword: string) {
           query: keyword
         }
       })
-      .then((res) => res.data.results);
+      .then((res) => res.data.results)
+      .catch((error) => {
+        if (axios.isAxiosError(error)) {
+          throw new Error(`데이터 처리 실패: ${error.message}`);
+        } else {
+          throw new Error('알 수 없는 에러가 발생했습니다.');
+        }
+      });
   }
-  async function usePopularData() {
+
+  async function popular(): Promise<Movie[]> {
     return apiClient
-      .get('/movie/popular', {
+      .get<ApiResponse>('/movie/popular', {
         params: {
           language: 'ko-KR',
           page: 1
         }
       })
-      .then((res) => res.data.results);
+      .then((res) => res.data.results)
+      .catch((error) => {
+        if (axios.isAxiosError(error)) {
+          throw new Error(`데이터 처리 실패: ${error.message}`);
+        } else {
+          throw new Error('알 수 없는 에러가 발생했습니다.');
+        }
+      });
   }
 }
-
-// export async function useSearchData(keyword: string) {
-//   return apiClient
-//     .get('/search/movie', {
-//       params: {
-//         language: 'ko-KR',
-//         query: keyword
-//       }
-//     })
-//     .then((res) => res.data.results);
-// }
-
-// export async function usePopularData() {
-//   return apiClient
-//     .get('/search/popular', {
-//       params: {
-//         language: 'ko-KR',
-//         page: 1
-//       }
-//     })
-//     .then((res) => res.data.results);
-// }
