@@ -1,13 +1,8 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { VideoData } from 'types/type';
 import axios, { AxiosError } from 'axios';
 
-interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string;
-  release_date: string;
-}
+interface Movie extends VideoData {}
 interface ApiResponse {
   results: Movie[];
 }
@@ -79,3 +74,9 @@ export function useSearchOrPopularVideos(
       });
   }
 }
+
+export const getPostImageUrl = (path?: string): string | undefined => {
+  if (!path) return undefined;
+  const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+  return `${IMAGE_BASE_URL}${path}`;
+};

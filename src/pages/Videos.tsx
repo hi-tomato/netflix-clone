@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import VideoCard from '@components/VideoCard';
-import { isSearch, useGetMockData } from '../hook/useFetch';
+import { useSearchOrPopularVideos, useGetMockData } from '../hook/useFetch';
 import { VideoData } from 'types/type';
 
 const Videos = () => {
   const { keyword } = useParams();
-  const { isError, isLoading, data } = isSearch(keyword || '');
+  const { isError, isLoading, data } = useSearchOrPopularVideos(keyword || '');
 
   if (isError) return <p>Error...</p>;
   if (isLoading) return <p>isLoading...</p>;
