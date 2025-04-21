@@ -10,6 +10,7 @@ import {
 import NotFound from './pages/NotFound.tsx';
 import Videos from './pages/Videos.tsx';
 import VideoDetail from './pages/VideoDetail.tsx';
+import Login from '@pages/Login.tsx';
 
 const routes: RouteObject[] = [
   {
@@ -18,6 +19,7 @@ const routes: RouteObject[] = [
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Videos /> },
+      { path: '/login', element: <Login /> },
       { path: '/videos', element: <Videos /> },
       { path: '/videos/:keyword', element: <Videos /> },
       { path: '/videos/watch/:watchId', element: <VideoDetail /> }

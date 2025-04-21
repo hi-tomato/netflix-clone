@@ -57,6 +57,13 @@ const Navbar = () => {
           Add
         </button>
 
+        <button
+          onClick={() => navigate(`/login`)}
+          className="px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-800"
+        >
+          로그인
+        </button>
+
         <button onClick={() => toggleTheme(!theme)}>
           {theme ? <HiSun /> : <HiMoon />}
         </button>
