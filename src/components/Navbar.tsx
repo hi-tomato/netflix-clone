@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import useThemeStore from '../hook/useTheme';
+import { HiMoon, HiSun } from 'react-icons/hi';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import useTheme from '../hook/useTheme';
 
 const Navbar = () => {
-  const [text, setText] = useState<string>(() => '');
-  const { keyword } = useParams();
   const navigate = useNavigate();
-
+  const [text, setText] = useState<string>('');
+  const { keyword } = useParams();
   useEffect(() => {
     return setText(keyword || '');
   }, [keyword]);
+
+  const { theme, toggleTheme } = useTheme();
+  useEffect(() => {
+    if (theme) {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+  }, [theme]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,6 +55,10 @@ const Navbar = () => {
           className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
         >
           Add
+        </button>
+
+        <button onClick={() => toggleTheme(!theme)}>
+          {theme ? <HiSun /> : <HiMoon />}
         </button>
       </form>
     </nav>

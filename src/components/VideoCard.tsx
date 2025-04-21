@@ -17,7 +17,7 @@ const VideoCard = ({ video }: VideoCardProps) => {
   return (
     <div className="w-full cursor-pointer hover:scale-105 transition-transform duration-200 mb-6">
       {/* Main Card Container */}
-      <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden shadow-lg bg-gray-900 border border-gray-800 h-auto sm:h-32">
+      <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden shadow-lg bg-red-800 border border-gray-800 h-auto sm:h-32">
         {/* Thumbnail Section */}
         <div className="sm:w-48 md:w-56 lg:w-64 flex-shrink-0 relative">
           {imageURL ? (

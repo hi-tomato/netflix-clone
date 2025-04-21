@@ -1,10 +1,31 @@
 @import 'tailwindcss';
-body {
+/* body {
   margin: 0;
   padding: 0;
   background-color: #141414;
   color: #fff;
   box-sizing: border-box;
 
+  @apply w-full max-w-[100%] sm:max-w-[640px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] mx-auto px-4;
+} */
+
+:root {
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --primary-color: #3498db;
+}
+
+body.dark-theme {
+  --background-color: #121212;
+  --text-color: #e0e0e0;
+  --primary-color: #90caf9;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition:
+    background-color 0.3s,
+    color 0.3s;
   @apply w-full max-w-[100%] sm:max-w-[640px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] mx-auto px-4;
 }
