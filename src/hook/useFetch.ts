@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { VideoData } from 'types/type';
+import { MovieDetailResult, VideoData } from 'types/type';
 import axios, { AxiosError } from 'axios';
 
 interface Movie extends VideoData {}
@@ -79,4 +79,18 @@ export const getPostImageUrl = (path?: string): string | undefined => {
   if (!path) return undefined;
   const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
   return `${IMAGE_BASE_URL}${path}`;
+};
+
+export const useMovieDetailResult = (watchId: string): MovieDetailResult => {
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ['detail', watchId],
+    queryFn: async () => {
+      return apiClient
+        .get(`/movie/${watchId}?append_to_response=credits,videos,similar`)
+        .then((res) => res.data);
+    },
+    enabled: !!watchId // MovieID가 존재할 때만 쿼리 실행
+  });
+
+  return { isLoading, isError, data };
 };

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { getPostImageUrl } from '../hook/useFetch';
 import { VideoData } from 'types/type';
 
@@ -8,14 +9,17 @@ interface VideoCardProps {
 const VideoCard = ({ video }: VideoCardProps) => {
   const { title, vote_average, overview, release_date } = video;
   const imageURL = getPostImageUrl(video.poster_path);
-
-  // Format release date if available - show only year
+  console.log(video);
+  const navigate = useNavigate();
   const formattedDate = release_date
     ? new Date(release_date).getFullYear() + '년'
     : '미정';
 
   return (
-    <div className="w-full cursor-pointer hover:scale-105 transition-transform duration-200 mb-6">
+    <div
+      onClick={() => navigate(`/videos/watch/${video.id}`, { state: video })}
+      className="w-full cursor-pointer hover:scale-105 transition-transform duration-200 mb-6"
+    >
       {/* Main Card Container */}
       <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden shadow-lg bg-red-800 border border-gray-800 h-auto sm:h-32">
         {/* Thumbnail Section */}
